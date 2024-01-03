@@ -34,3 +34,27 @@ temp_df = read_dataset(client, "pickup_datetime BETWEEN '2015-01-01' AND '2015-0
 for row in temp_df:
     print(row)
     break
+
+class_weight = {0: 0.5, 1: 25.0}
+
+OUTDIR='trained'
+import shutil
+shutil.rmtree(OUTDIR, ignore_errors=True)
+
+NUM_TRAINING_EXAMPLES = 1000 * 1000 * 5
+STOP_POINT = 3.5
+TOTAL_TRAINING_EXAMPLES = int(STOP_POINT * NUM_TRAINING_EXAMPLES)
+NUM_CHECKPOINTS = 10
+steps_per_epoch = (TOTAL_TRAINING_EXAMPLES // 
+                   (BATCH_SIZE*NUM_CHECKPOINTS))
+
+checkpoint_path = '{}/checkpoints/taxi'.format(OUTDIR)
+cp_callback = tf.keras.callbacks.ModelCheckpoint(checkpoint_path, 
+                                                 save_weights_only=False,
+                                                 verbose=1)
+
+history = model.fit(train_df, validation_data=eval_df, 
+                    epochs=NUM_CHECKPOINTS,
+                    steps_per_epoch=steps_per_epoch,
+                    class_weight=class_weight)
+
