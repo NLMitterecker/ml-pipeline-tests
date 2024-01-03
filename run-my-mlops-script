@@ -1,5 +1,3 @@
-# Example usage
-source_code = """
 # original file: https://github.com/GoogleCloudPlatform/ml-design-patterns/blob/master/04_hacking_training_loop/checkpoints.ipynb
 import tensorflow as tf
 from tensorflow.python.framework import dtypes
